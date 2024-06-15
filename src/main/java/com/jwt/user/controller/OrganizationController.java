@@ -1,7 +1,7 @@
 package com.jwt.user.controller;
 
 import java.util.Optional;
-
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,11 +56,16 @@ public class OrganizationController {
 
 	@PostMapping("/create-organization")
 	public ResponseEntity<Organization> createOrganization(@RequestBody Organization organization) {
+		Optional<Organization> byOrgName = organizationRepository.findByOrgName(organization.getOrgName());
+		if(byOrgName.isPresent()) {
+			throw new RuntimeException("Organistion is already exist");
+		}
+		
 		Organization save = organizationRepository.save(organization);
 		return ResponseEntity.status(HttpStatus.CREATED).body(save);
 	}
 
-	@PostMapping("/{organizationId}/members")
+	@PostMapping("/{organizationId}/invite-member")
 	public ResponseEntity<String> addMemberToOrganization(@PathVariable Integer organizationId,
 			@RequestBody MemberRequest memberRequest) throws MessagingException {
 		Optional<Organization> byId = organizationRepository.findById(organizationId);
@@ -76,7 +81,7 @@ public class OrganizationController {
 			String subject = "Inviting User to the organizatin";
 			String text = "http://localhost:6060/auth/signup";
 			emailUtil.sendEmail(memberRequest.getEmail(), subject, "For signup please, click the link below:\n" + text);
-			return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED).body("User needs to register first.");
+			return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED).body("User needs to register first,"+"Invite mail sent successfully, please check your mail !");
 		}
 
 		User user = userOptional.get();
@@ -97,6 +102,12 @@ public class OrganizationController {
 		member.setUser(user);
 		member.setRole(role);
 		memberRepository.save(member);
+
+       // Now, update the user's roles
+	    Set<Role> roles = user.getRoles();
+	    roles.add(role);
+	    user.setRoles(roles);
+	    userRepo.save(user);
 
 		return ResponseEntity.ok("Member added successfully.");
 	}

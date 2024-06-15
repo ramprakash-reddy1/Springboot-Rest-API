@@ -1,8 +1,10 @@
 package com.jwt.user.service;
 
 import com.jwt.user.config.JWTUtils;
-import com.jwt.user.dto.ReqRes;
 
+import com.jwt.user.dto.ReqRes;
+import com.jwt.user.dto.SigninRequest;
+import com.jwt.user.dto.SignupRequest;
 import com.jwt.user.entity.Role;
 import com.jwt.user.entity.User;
 import com.jwt.user.repository.RoleRepository;
@@ -33,7 +35,7 @@ public class AuthService {
 	@Autowired
 	private RoleRepository roleRepository;
 
-	public ReqRes signUp(ReqRes registrationRequest) {
+	public ReqRes signUp(SignupRequest registrationRequest) {
 		ReqRes response = new ReqRes();
 		try {
 
@@ -69,7 +71,7 @@ public class AuthService {
 		return response;
 	}
 
-	public ReqRes signIn(ReqRes signinRequest) {
+	public ReqRes signIn(SigninRequest signinRequest) {
 		ReqRes response = new ReqRes();
 
 		try {

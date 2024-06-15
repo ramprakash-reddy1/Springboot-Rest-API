@@ -2,6 +2,7 @@ package com.jwt.user.entity;
 
 import jakarta.persistence.*;
 
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,7 @@ public class User implements UserDetails {
 	@Column(unique = true, nullable = false)
 	private String email;
 
-	@Column(name = "Password", nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	@Transient()

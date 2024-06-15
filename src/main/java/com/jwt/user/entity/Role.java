@@ -1,6 +1,5 @@
 package com.jwt.user.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,15 +1,13 @@
 package com.jwt.user.controller;
 
 import com.jwt.user.dto.ReqRes;
+import com.jwt.user.dto.SigninRequest;
+import com.jwt.user.dto.SignupRequest;
 import com.jwt.user.entity.Role;
 import com.jwt.user.repository.RoleRepository;
-import com.jwt.user.repository.UserRepo;
 import com.jwt.user.service.AuthService;
-import com.jwt.user.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +25,12 @@ public class AuthController {
 	private RoleRepository roleRepository;
 
 	@PostMapping("/signup")
-	public ResponseEntity<ReqRes> signUp(@RequestBody ReqRes signUpRequest) {
+	public ResponseEntity<ReqRes> signUp(@RequestBody SignupRequest signUpRequest) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(authService.signUp(signUpRequest));
 	}
 
 	@PostMapping("/signin")
-	public ResponseEntity<ReqRes> signIn(@RequestBody ReqRes signInRequest) {
+	public ResponseEntity<ReqRes> signIn(@RequestBody SigninRequest signInRequest) {
 		return ResponseEntity.status(HttpStatus.OK).body(authService.signIn(signInRequest));
 	}
 
