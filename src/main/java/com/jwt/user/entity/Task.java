@@ -22,10 +22,11 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "task_id")
+    private Long taskId;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false,name ="task_name")
+    private String Taskname;
 
     @ManyToOne
     @JoinColumn(name = "project_id")

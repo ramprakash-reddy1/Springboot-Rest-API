@@ -1,5 +1,6 @@
 package com.jwt.user.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity; 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +15,8 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "member_id")
+    private Long memberId;
 
     @ManyToOne
     @JoinColumn(name = "organization_id")
@@ -29,11 +31,11 @@ public class Member {
     private Role role;
 
 	public Long getId() {
-		return id;
+		return memberId;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.memberId = id;
 	}
 
 	public Organization getOrganization() {
@@ -62,7 +64,7 @@ public class Member {
 
 	public Member(Long id, Organization organization, User user, Role role) {
 		super();
-		this.id = id;
+		this.memberId = id;
 		this.organization = organization;
 		this.user = user;
 		this.role = role;

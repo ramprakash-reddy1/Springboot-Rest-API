@@ -10,7 +10,7 @@ import com.jwt.user.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 	
-Optional<Role> findByName(String roleName);
+Optional<Role> findByRoleName(String roleName);
 
 
 }

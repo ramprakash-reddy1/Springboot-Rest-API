@@ -18,7 +18,7 @@ public class User implements UserDetails {
 	@Id
 	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer UserId;
 
 	@Column(unique = true, nullable = false)
 	private String email;
@@ -30,14 +30,14 @@ public class User implements UserDetails {
 	private String confirmPassword;
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	private Set<Role> roles;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 		for (Role role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role.getName()));
+			authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
 		}
 
 		return authorities;
@@ -69,11 +69,11 @@ public class User implements UserDetails {
 	}
 
 	public Integer getId() {
-		return id;
+		return UserId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.UserId = id;
 	}
 
 	public String getEmail() {
@@ -114,7 +114,7 @@ public class User implements UserDetails {
 
 	public User(Integer id, String email, String password, String confirmPassword, Set<Role> roles) {
 		super();
-		this.id = id;
+		this.UserId = id;
 		this.email = email;
 		this.password = password;
 		this.confirmPassword = confirmPassword;

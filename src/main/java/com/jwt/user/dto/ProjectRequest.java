@@ -1,11 +1,12 @@
 package com.jwt.user.dto;
 
+
 import lombok.Data;
 
 @Data
-public class TaskRequest {
+public class ProjectRequest {
 	
-	private String taskName;
+	private String projectName;
 	
 
 }

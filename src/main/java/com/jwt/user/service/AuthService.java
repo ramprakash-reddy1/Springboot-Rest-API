@@ -51,7 +51,7 @@ public class AuthService {
 			Set<Role> userRoles = new HashSet<>();
 
 			for (String roleName : registrationRequest.getRoles()) {
-				Optional<Role> roleOptional = roleRepository.findByName(roleName);
+				Optional<Role> roleOptional = roleRepository.findByRoleName(roleName);
 				Role role = roleOptional.orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
 				userRoles.add(role);
 			}

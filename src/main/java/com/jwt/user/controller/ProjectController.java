@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jwt.user.dto.ProjectRequest;
 import com.jwt.user.entity.Project;
 import com.jwt.user.service.ProjectService;
 
@@ -24,33 +25,33 @@ public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
 
-	@GetMapping
+	@GetMapping("/getProjectList")
 	public ResponseEntity<List<Project>> getAllProjects() {
 		List<Project> projects = projectService.getAllProjects();
 		return ResponseEntity.ok().body(projects);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Project> getProjectById(@PathVariable("id") int id) {
-		Project project = projectService.getProjectById(id);
+	@GetMapping("/get-project/{projectId}")
+	public ResponseEntity<Project> getProjectById(@PathVariable("projectId") int projectId) {
+		Project project = projectService.getProjectById(projectId);
 		return ResponseEntity.ok().body(project);
 	}
 
-	@PostMapping("/create-project")
-	public ResponseEntity<Project> createProject(@RequestBody Project project) {
-		Project createdProject = projectService.createProject(project);
+	@PostMapping("/create-project/{organizationId}")
+	public ResponseEntity<Project> createProject(@PathVariable("organizationId") int organizationId, @RequestBody ProjectRequest projectRequest) {
+		Project createdProject = projectService.createProject(organizationId,projectRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdProject);
 	}
 
-	@PutMapping("/update-project/{id}")
-	public ResponseEntity<Project> updateProject(@PathVariable("id") int id, @RequestBody Project updatedProject) {
-		Project project = projectService.updateProject(id, updatedProject);
+	@PutMapping("/update-project/{projectId}")
+	public ResponseEntity<Project> updateProject(@PathVariable("projectId") int projectId, @RequestBody Project updatedProject) {
+		Project project = projectService.updateProject(projectId, updatedProject);
 		return ResponseEntity.ok().body(project);
 	}
 
-	@DeleteMapping("delete-project/{id}")
-	public ResponseEntity<String> deleteProject(@PathVariable("id") int id) {
-		projectService.deleteProject(id);
+	@DeleteMapping("delete-project/{projectId}")
+	public ResponseEntity<String> deleteProject(@PathVariable("projectId") int projectId) {
+		projectService.deleteProject(projectId);
 		return ResponseEntity.ok().body("Project is deleted succssfully");
 	}
 }

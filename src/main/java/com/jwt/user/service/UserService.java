@@ -2,12 +2,17 @@ package com.jwt.user.service;
 
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.jwt.user.entity.User;
 import com.jwt.user.repository.UserRepo;
 
 @Service
@@ -23,4 +28,11 @@ public class UserService implements UserDetailsService {
 
 
 	}
+	 private Set<SimpleGrantedAuthority> getAuthority(User user) {
+	        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+	        user.getRoles().forEach(role -> {
+	            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+	        });
+	        return authorities;
+	    }
 }
